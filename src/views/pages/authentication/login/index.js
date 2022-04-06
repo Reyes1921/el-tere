@@ -27,7 +27,7 @@ const Login = () => {
                     <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: 'calc(100vh - 68px)' }}>
                         <Grid item style={{ m: { xs: 1, sm: 3 }, mb: 0 }}>
                             <AuthCardWrapper style={{
-                                borderRadius: 35,
+                                borderRadius: 20,
                                 backgroundColor: "#FFFFFF",
                                 fontSize: "24px",
                                 border: "2px solid ",
