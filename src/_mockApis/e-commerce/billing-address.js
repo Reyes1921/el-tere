@@ -1,0 +1,91 @@
+import services from 'utils/mockAdapter';
+
+// third-party
+import { Chance } from 'chance';
+import { v4 as UIDV4 } from 'uuid';
+
+const chance = new Chance();
+
+// billing address list
+let address = [
+    {
+        id: 1,
+        name: chance.name(),
+        destination: 'home',
+        building: chance.address({ short_suffix: true }),
+        street: chance.address({ short_suffix: false }),
+        city: chance.city(),
+        state: chance.state({ full: true }),
+        country: chance.country({ full: true }),
+        post: chance.postcode(),
+        phone: chance.phone(),
+        isDefault: true
+    },
+    {
+        id: 2,
+        name: chance.name(),
+        destination: 'office',
+        building: chance.address({ short_suffix: true }),
+        street: chance.address({ short_suffix: false }),
+        city: chance.city(),
+        state: chance.state({ full: true }),
+        country: chance.country({ full: true }),
+        post: chance.postcode(),
+        phone: chance.phone(),
+        isDefault: false
+    }
+];
+
+// ===========================|| MOCK SERVICES ||=========================== //
+
+services.onGet('/api/address/list').reply(200, { address });
+
+services.onPost('/api/address/new').reply((request) => {
+    try {
+        const { data } = JSON.parse(request.data);
+        const { isDefault } = data; // name, destination, building, street, city, state, country, post, phone,
+        const newAddress = {
+            id: UIDV4(),
+            ...data
+            // comment amit
+            // name: name,
+            // destination: destination,
+            // building: building,
+            // street: street,
+            // city: city,
+            // state: state,
+            // country: country,
+            // post: post,
+            // phone: phone,
+            // isDefault: isDefault
+        };
+
+        if (isDefault) {
+            address = address.map((item) => (item.isDefault === true ? { ...item, isDefault: false } : item));
+        }
+
+        address = [...address, newAddress];
+
+        return [200, { address }];
+    } catch (err) {
+        console.error(err);
+        return [500, { message: 'Internal server error' }];
+    }
+});
+
+services.onPost('/api/address/edit').reply((request) => {
+    try {
+        const { data } = JSON.parse(request.data);
+
+        if (data.isDefault) {
+            address = address.map((item) => (item.isDefault === true ? { ...item, isDefault: false } : item));
+        }
+
+        address = address.map((item) => (item.id === data.id ? data : item));
+
+        return [200, { address }];
+    } catch (err) {
+        console.error(err);
+        return [500, { message: 'Internal server error' }];
+    }
+});
