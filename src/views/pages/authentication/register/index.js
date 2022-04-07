@@ -52,7 +52,7 @@ const Register = () => {
                                             <Grid item>
                                                 <Stack alignItems="center" justifyContent="center" spacing={1}>
                                                     <Typography variant="caption" fontSize="16px" textAlign={matchDownSM ? 'center' : ''}>
-                                                        Únete y forma parte de los comercios de EL TERE
+                                                        Únete y disfruta de los productos que ofrece EL TERE
                                                     </Typography>
                                                 </Stack>
                                             </Grid>

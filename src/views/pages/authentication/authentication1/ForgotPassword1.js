@@ -94,7 +94,7 @@ const ForgotPassword = () => {
                                                 gutterBottom
                                                 
                                             >
-                                                Únete y forma parte de los comercios de EL TERE
+                                                Únete y disfruta de los productos que ofrece EL TERE
                                             </Typography>
                                             <Typography style={{color: "#DB7F50", padding: "5px", fontSize: "32px", textAlign: "center"}} color="textPrimary" gutterBottom variant="h4">
                                                Recupera tu cuenta

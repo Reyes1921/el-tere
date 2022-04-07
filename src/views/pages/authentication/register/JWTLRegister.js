@@ -107,6 +107,8 @@ const JWTLRegister = ({ loginIndex, ...others }) => {
             })}
             onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                 
+
+                
                 const userRegister = {
                     "email": values.formikaEmail,
                     "password": values.formikaPassword,
@@ -127,7 +129,30 @@ const JWTLRegister = ({ loginIndex, ...others }) => {
                     .then(response => response.json())
                     .then(data => console.log(data))
 
-                    console.log(checked);
+                   // console.log(checked);
+
+                    {/*try {
+                        const response = await login(values.email, values.password);
+                        if (response.status === 400) {
+                            setStatus({ success: false });
+                            setErrors({ submit: response.message });
+                            setSubmitting(false);
+                        }
+    
+                        if (scriptedRef.current) {
+                            setStatus({ success: true });
+                            setSubmitting(false);
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        if (scriptedRef.current) {
+                            setStatus({ success: false });
+                            setErrors({ submit: err.message });
+                            setSubmitting(false);
+                        }
+                    }*/}
+
+                
               
             }}
         >
@@ -300,9 +325,9 @@ const JWTLRegister = ({ loginIndex, ...others }) => {
                         <NativeSelect
                         style={{ padding:"10px", border: "0px" }}
                         defaultValue={''}
-                        value={checked}
+                        value={values.formikaGender}
                         onBlur={handleBlur}
-                        onChange={(event) => setChecked(event.target.checked)}
+                        onChange={handleChange}
                         inputProps={{
                         name: "formikaGender",
                         id: "formikaGender",

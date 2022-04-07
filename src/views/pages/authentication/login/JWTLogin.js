@@ -70,7 +70,7 @@ const JWTLogin = ({ loginIndex, ...others }) => {
             })}
             onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                 try {
-                    const response = await login(values.email, values.password);
+                    const response = await login(values.formikaLoginEmail, values.formikaLoginPassword);
                     if (response.status === 400) {
                         setStatus({ success: false });
                         setErrors({ submit: response.message });
