@@ -34,7 +34,7 @@ services.onPost(`${nodeURL}/auth/local`).reply(async (request) => {
         await delay(500);
 
         const { email, password } = JSON.parse(request.data);
-        const user = users.find((_user) => _user.email === email);
+        const user = users.find((_user) => _user.email == email);
 
         if (!user) {
             return [400, { message: 'Verifique su correo electrónico y contraseña' }];

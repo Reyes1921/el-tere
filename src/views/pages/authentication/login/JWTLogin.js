@@ -69,7 +69,11 @@ const JWTLogin = ({ loginIndex, ...others }) => {
                 formikaLoginPassword: Yup.string().max(255).required('Se requiere una contraseña')
             })}
             onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                try {
+
+                {/*fetch('https://eltere-backend.herokuapp.com/api/v1/user', requestOptions)
+                    .then(response => response.json())
+                    .then(data => console.log(data))/*}
+                {/*try {
                     const response = await login(values.formikaLoginEmail, values.formikaLoginPassword);
                     if (response.status === 400) {
                         setStatus({ success: false });
@@ -88,7 +92,7 @@ const JWTLogin = ({ loginIndex, ...others }) => {
                         setErrors({ submit: err.message });
                         setSubmitting(false);
                     }
-                }
+                }*/}
             }}
         >
             {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
