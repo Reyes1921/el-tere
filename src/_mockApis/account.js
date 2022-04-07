@@ -29,7 +29,7 @@ const users = [
 
 // ===========================|| MOCK SERVICES ||=========================== //
 
-services.onPost(`${nodeURL}/auth/local`).reply(async (request) => {
+services.onPost(`${nodeURL}/auth/local`).reply(async (data) => {
     try {
         await delay(500);
 

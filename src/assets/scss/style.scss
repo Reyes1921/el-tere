@@ -6,6 +6,10 @@
 @import '~slick-carousel/slick/slick.css';
 @import '~slick-carousel/slick/slick-theme.css';
 
+.css-gmwslw-MuiStack-root{
+    display: none;
+}
+
 // ===========================|| LIGHT BOX ||=========================== //
 .slick-arrow:before {
     color: $grey500;

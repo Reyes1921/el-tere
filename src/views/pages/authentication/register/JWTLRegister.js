@@ -457,7 +457,7 @@ const JWTLRegister = ({ loginIndex, ...others }) => {
         borderColor: "#DB7F50",
         color:"#9393AA"
     }} variant="contained">
-                                Vaijes
+                                Viajes
                             </Button>
                         </AnimateButton>
                     </Box>

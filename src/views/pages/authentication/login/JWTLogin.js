@@ -70,7 +70,7 @@ const JWTLogin = ({ loginIndex, ...others }) => {
             })}
             onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
 
-                {/*fetch('https://eltere-backend.herokuapp.com/api/v1/user', requestOptions)
+                {/* fetch('https://eltere-backend.herokuapp.com/api/v1/user', requestOptions)
                     .then(response => response.json())
                     .then(data => console.log(data))/*}
                 {/*try {
