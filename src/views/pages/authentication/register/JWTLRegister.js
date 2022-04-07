@@ -168,14 +168,7 @@ const JWTLRegister = ({ loginIndex, ...others }) => {
                                 classes: {
                                     notchedOutline: classes.notchedOutline
                                 }
-                            }}endAdornment={
-                                <InputAdornment position="start">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                    >
-                                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                                    </IconButton>
-                                </InputAdornment>}
+                            }}
                             
                         />
                         {touched.formikaLastName && errors.formikaLastName && (
