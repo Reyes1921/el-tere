@@ -31,13 +31,13 @@ const FirebaseForgotPassword = ({ ...others }) => {
     return (
         <Formik
             initialValues={{
-                email: 'info@codedthemes.com',
-                password: '123456',
+                email: '',
+                password: '',
                 submit: null
             }}
             validationSchema={Yup.object().shape({
-                email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                password: Yup.string().max(255).required('Password is required')
+                email: Yup.string().email('Debe ser un correo electrónico válido').max(255).required('El correo electrónico es obligatorio'),
+                password: Yup.string().max(255).required('Se requiere una contraseña')
             })}
             onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                 try {

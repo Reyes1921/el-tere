@@ -121,18 +121,6 @@ const ForgotPassword = () => {
                                 <Divider />
                             </Grid>
                             </Grid>
-                            {/*<Grid item xs={12}>
-                                <Grid item container direction="column" alignItems="flex-end" xs={12}>
-                                    <Typography
-                                        component={RouterLink}
-                                        to="/pages/login/login1"
-                                        variant="subtitle1"
-                                        sx={{ textDecoration: 'none' }}
-                                    >
-                                        Have an account?
-                                    </Typography>
-                                </Grid>
-                            </Grid>*/}
                         </Grid>
                     </AuthCardWrapper>
                 </Grid>

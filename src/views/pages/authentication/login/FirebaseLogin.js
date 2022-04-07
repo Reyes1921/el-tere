@@ -185,9 +185,9 @@ const FirebaseLogin = ({ loginIndex, ...others }) => {
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit} {...others}>
                         <FormControl fullWidth error={Boolean(touched.email && errors.email)} className={classes.loginInput}>
-                            <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
+                            <InputLabel htmlFor="formikaLoginEmail">Email Address / Username</InputLabel>
                             <OutlinedInput
-                                id="outlined-adornment-email-login"
+                                id="formikaLoginEmail"
                                 type="email"
                                 value={values.email}
                                 name="email"
@@ -209,9 +209,9 @@ const FirebaseLogin = ({ loginIndex, ...others }) => {
                         </FormControl>
 
                         <FormControl fullWidth error={Boolean(touched.password && errors.password)} className={classes.loginInput}>
-                            <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
+                            <InputLabel htmlFor="formikaLoginPassword">Password</InputLabel>
                             <OutlinedInput
-                                id="outlined-adornment-password-login"
+                                id="formikaLoginPassword"
                                 type={showPassword ? 'text' : 'password'}
                                 value={values.password}
                                 name="password"

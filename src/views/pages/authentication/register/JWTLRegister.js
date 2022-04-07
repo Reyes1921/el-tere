@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 
 // material-ui
 
 import { makeStyles } from '@material-ui/styles';
+//import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {
     Box,
     Button,
@@ -27,7 +28,7 @@ import { Formik } from 'formik';
 
 // project imports
 import AnimateButton from 'ui-component/extended/AnimateButton';
-import useAuth from 'hooks/useAuth';
+//import useAuth from 'hooks/useAuth';
 import useScriptRef from 'hooks/useScriptRef';
 
 // assets
@@ -39,16 +40,17 @@ const useStyles = makeStyles((theme) => ({
     loginInput: {
         ...theme.typography.customInput
     }
-}));
+}))
 
 // ===============================|| JWT REGISTER ||=============================== //
 
 const JWTLRegister = ({ loginIndex, ...others }) => {
     const classes = useStyles();
-    const { login } = useAuth();
+   // const { login } = useAuth();
     const scriptedRef = useScriptRef();
 
-    const [checked, setChecked] = React.useState(true);
+   
+    const [checked, setChecked] = useState(true);
 
     const [showPassword, setShowPassword] = React.useState(false);
     const handleClickShowPassword = () => {
@@ -62,46 +64,82 @@ const JWTLRegister = ({ loginIndex, ...others }) => {
     return (
         <Formik
             initialValues={{
-                email: 'test@test.com',
-                password: 'test123',
+                formikaName: '',
+                formikaLastName: '',
+                formikaEmail: '',
+                formikaPassword: '',
+                formikaPhone: '',
+                formikaDate: '',
+                formikaAddress: '',
                 submit: null
             }}
             validationSchema={Yup.object().shape({
-                email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                password: Yup.string().max(255).required('Password is required')
+                formikaName: Yup.string()
+                .min(2, '¡Muy corto!')
+                .max(50, '¡Muy Largo!')
+                .required('Campo requerido'),
+                formikaLastName: Yup.string()
+                .min(2, '¡Muy corto!')
+                .max(50, '¡Muy Largo!')
+                .required('Campo requerido'),
+                formikaEmail: Yup.string()
+                .email('Debe ser un correo electrónico válido')
+                .min(8, '¡Muy corto!')
+                .max(50, '¡Muy Largo!')
+                .required('Campo requerido'),
+                formikaPassword: Yup.string()
+                .min(2, '¡Muy corto!')
+                .max(50, '¡Muy Largo!')
+                .required('Campo requerido'),
+                formikaPhone: Yup.string()
+                .min(7, '¡Muy corto!')
+                .max(15, '¡Muy Largo!')
+                .required('Campo requerido'),
+                formikaDate: Yup.string()
+                .min(8, '¡Muy corto!')
+                .max(50, '¡Muy Largo!')
+                .required('Campo requerido'),
+                formikaAddress: Yup.string()
+                .min(2, '¡Muy corto!')
+                .max(50, '¡Muy Largo!')
+                .required('Campo requerido'),
+
             })}
             onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                try {
-                    const response = await login(values.email, values.password);
-                    if (response.status === 400) {
-                        setStatus({ success: false });
-                        setErrors({ submit: response.message });
-                        setSubmitting(false);
-                    }
-
-                    if (scriptedRef.current) {
-                        setStatus({ success: true });
-                        setSubmitting(false);
-                    }
-                } catch (err) {
-                    console.error(err);
-                    if (scriptedRef.current) {
-                        setStatus({ success: false });
-                        setErrors({ submit: err.message });
-                        setSubmitting(false);
-                    }
+                
+                const userRegister = {
+                    "email": values.formikaEmail,
+                    "password": values.formikaPassword,
+                    "firstName": values.formikaName,
+                    "lastName": values.formikaLastName,
+                    "cellphone": values.formikaPhone,
+                    "gender": 'M',
+                    "birthday": values.formikaDate,
+                    "roleId": 1500
                 }
+
+                const requestOptions = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userRegister)
+                };
+                fetch('https://eltere-backend.herokuapp.com/api/v1/user', requestOptions)
+                    .then(response => response.json())
+                    .then(data => console.log(data))
+
+                    console.log(checked);
+              
             }}
         >
             {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                 <form noValidate onSubmit={handleSubmit} {...others}>
-                    <FormControl fullWidth error={Boolean(touched.text && errors.text)} className={classes.loginInput}>
-                        <InputLabel htmlFor="outlined-adornment-email-login">Nombre</InputLabel>
+                    <FormControl fullWidth error={Boolean(touched.formikaName && errors.formikaName)} className={classes.loginInput}>
+                        <InputLabel htmlFor="formikaName">Nombre</InputLabel>
                         <OutlinedInput style={{ border: "1px solid", borderColor: "#DB7F50"}}
-                            id="outlined-adornment-email-login-name"
+                            id="formikaName"
                             type="text"
-                            value={values.text}
-                            name="text-name"
+                            value={values.formikaName}
+                            name="formikaName"
                             onBlur={handleBlur}
                             onChange={handleChange}
                             inputProps={{
@@ -110,42 +148,50 @@ const JWTLRegister = ({ loginIndex, ...others }) => {
                                 }
                             }}
                         />
-                        {touched.text && errors.text && (
+                        {touched.formikaName && errors.formikaName && (
                             <FormHelperText error id="standard-weight-helper-text-email-login">
                                 {' '}
-                                {errors.text}{' '}
+                                {errors.formikaName}{' '}
                             </FormHelperText>
                         )}
                     </FormControl>
-                    <FormControl fullWidth error={Boolean(touched.text && errors.text)} className={classes.loginInput}>
-                        <InputLabel htmlFor="outlined-adornment-email-login">Apellido</InputLabel>
+                    <FormControl fullWidth error={Boolean(touched.formikaLastName && errors.formikaLastName)} className={classes.loginInput}>
+                        <InputLabel htmlFor="formikaLastName">Apellido</InputLabel>
                         <OutlinedInput style={{ border: "1px solid", borderColor: "#DB7F50"}}
-                            id="outlined-adornment-email-login-text-lastname"
+                            id="formikaLastName"
                             type="text"
-                            value={values.text}
-                            name="text-lastname"
+                            value={values.formikaLastName}
+                            name="formikaLastName"
                             onBlur={handleBlur}
                             onChange={handleChange}
                             inputProps={{
                                 classes: {
                                     notchedOutline: classes.notchedOutline
                                 }
-                            }}
+                            }}endAdornment={
+                                <InputAdornment position="start">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                    >
+                                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                                    </IconButton>
+                                </InputAdornment>}
+                            
                         />
-                        {touched.text && errors.text && (
+                        {touched.formikaLastName && errors.formikaLastName && (
                             <FormHelperText error id="standard-weight-helper-text-email-login">
                                 {' '}
-                                {errors.text}{' '}
+                                {errors.formikaLastName}{' '}
                             </FormHelperText>
                         )}
                     </FormControl>
-                    <FormControl fullWidth error={Boolean(touched.email && errors.email)} className={classes.loginInput}>
-                        <InputLabel htmlFor="outlined-adornment-email-login">Correo Electrónico</InputLabel>
+                    <FormControl fullWidth error={Boolean(touched.formikaEmail && errors.formikaEmail)} className={classes.loginInput}>
+                        <InputLabel htmlFor="formikaEmail">Correo Electrónico</InputLabel>
                         <OutlinedInput style={{ border: "1px solid", borderColor: "#DB7F50"}}
-                            id="outlined-adornment-email-login"
+                            id="formikaEmail"
                             type="email"
-                            value={values.email}
-                            name="email"
+                            value={values.formikaEmail}
+                            name="formikaEmail"
                             onBlur={handleBlur}
                             onChange={handleChange}
                             inputProps={{
@@ -154,33 +200,26 @@ const JWTLRegister = ({ loginIndex, ...others }) => {
                                 }
                             }}
                         />
-                        {touched.email && errors.email && (
+                        {touched.formikaEmail && errors.formikaEmail && (
                             <FormHelperText error id="standard-weight-helper-text-email-login">
                                 {' '}
-                                {errors.email}{' '}
+                                {errors.formikaEmail}{' '}
                             </FormHelperText>
                         )}
                     </FormControl>
 
-                    <FormControl fullWidth error={Boolean(touched.password && errors.password)} className={classes.loginInput}>
-                        <InputLabel htmlFor="outlined-adornment-password-login">Contraseña</InputLabel>
+                    <FormControl fullWidth error={Boolean(touched.formikaPassword && errors.formikaPassword)} className={classes.loginInput}>
+                        <InputLabel htmlFor="formikaPassword">Contraseña</InputLabel>
                         <OutlinedInput  style={{ border: "1px solid", borderColor: "#DB7F50"}}
-                            id="outlined-adornment-password-login"
+                            id="formikaPassword"
                             type={showPassword ? 'text' : 'password'}
-                            value={values.password}
-                            name="password"
+                            value={values.formikaPassword}
+                            name="formikaPassword"
                             onBlur={handleBlur}
                             onChange={handleChange}
                             endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                        edge="end"
-                                    >
-                                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                                    </IconButton>
+                                <InputAdornment position="start">
+                                    
                                 </InputAdornment>
                             }
                             inputProps={{
@@ -190,34 +229,19 @@ const JWTLRegister = ({ loginIndex, ...others }) => {
                             }}
                             label="Password"
                         />
-                        {touched.password && errors.password && (
+                        {touched.formikaPassword && errors.formikaPassword && (
                             <FormHelperText error id="standard-weight-helper-text-password-login">
                                 {' '}
-                                {errors.password}{' '}
+                                {errors.formikaPassword}{' '}
                             </FormHelperText>
                         )}
                     </FormControl>
-                    <FormControl style={{float: "left", width:"19%", border: "1px solid", borderRadius: 13}} fullWidth error={Boolean(touched.phone && errors.phone)} className={classes.loginInput}>
-                        {/*<InputLabel htmlFor="outlined-adornment-email-login">Codigo</InputLabel>
-                        <OutlinedInput style={{ border: "1px solid", borderColor: "#DB7F50" }}
-                            id="outlined-adornment-email-login-codigo"
-                            type="select"
-                            value={values.codigo }
-                            menuItem ={'hola'}
-                            name="codigo"
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            inputProps={{
-                                classes: {
-                                    notchedOutline: classes.notchedOutline
-                                }
-                            }}
-                        />*/}
+                   {/*} <FormControl style={{float: "left", width:"19%", border: "1px solid", borderRadius: 13}} fullWidth error={Boolean(touched.phone && errors.phone)} className={classes.loginInput}>
                         <NativeSelect
                         style={{ padding:"23% 8%", border: "0px" }}
                         defaultValue={+58}
                         onBlur={handleBlur}
-                            onChange={handleChange}
+                        onChange={handleChange}
                         inputProps={{
                         name: "codigo-telefonico",
                         id: "codigo-telefonico",
@@ -233,14 +257,14 @@ const JWTLRegister = ({ loginIndex, ...others }) => {
                                 {errors.phone}{' '}
                             </FormHelperText>
                         )}
-                    </FormControl>
-                    <FormControl style={{float: "right", width:"79%"}} fullWidth error={Boolean(touched.phone && errors.phone)} className={classes.loginInput}>
-                        <InputLabel htmlFor="outlined-adornment-email-login">Teléfono</InputLabel>
+                        </FormControl>*/}
+                    <FormControl style={{float: "right"}} fullWidth error={Boolean(touched.formikaPhone && errors.formikaPhone)} className={classes.loginInput}>
+                        <InputLabel htmlFor="formikaPhone">Teléfono (Ej:04265555555 )</InputLabel>
                         <OutlinedInput style={{ border: "1px solid", borderColor: "#DB7F50"}}
-                            id="outlined-adornment-email-login-phone"
+                            id="formikaPhone"
                             type="phone"
-                            value={values.phone }
-                            name="phone"
+                            value={values.formikaPhone }
+                            name="formikaPhone"
                             onBlur={handleBlur}
                             onChange={handleChange}
                             inputProps={{
@@ -249,20 +273,20 @@ const JWTLRegister = ({ loginIndex, ...others }) => {
                                 }
                             }}
                         />
-                        {touched.phone && errors.phone && (
+                        {touched.formikaPhone && errors.formikaPhone && (
                             <FormHelperText error id="standard-weight-helper-text-email-login">
                                 {' '}
-                                {errors.phone}{' '}
+                                {errors.formikaPhone}{' '}
                             </FormHelperText>
                         )}
                     </FormControl>
-                    <FormControl fullWidth error={Boolean(touched.select && errors.select)} className={classes.loginInput}>
-                        <InputLabel htmlFor="outlined-adornment-email-login">Fecha de Nacimiento</InputLabel>
+                    <FormControl fullWidth error={Boolean(touched.formikaDate && errors.formikaDate)} className={classes.loginInput}>
+                        <InputLabel htmlFor="formikaDate">Fecha de Nacimiento</InputLabel>
                         <OutlinedInput style={{ border: "1px solid", borderColor: "#DB7F50"}}
-                            id="outlined-adornment-email-login-birthdate"
+                            id="formikaDate"
                             type="select"
-                            value={values.select }
-                            name="select-birthdate"
+                            value={values.formikaDate}
+                            name="formikaDate"
                             onBlur={handleBlur}
                             onChange={handleChange}
                             inputProps={{
@@ -271,55 +295,43 @@ const JWTLRegister = ({ loginIndex, ...others }) => {
                                 }
                             }}
                         />
-                        {touched.select && errors.select && (
+                        {touched.formikaDate && errors.formikaDate && (
                             <FormHelperText error id="standard-weight-helper-text-email-login">
                                 {' '}
-                                {errors.select}{' '}
+                                {errors.formikaDate}{' '}
                             </FormHelperText>
                         )}
                     </FormControl>
-                    <FormControl style={{border: "1px solid", borderRadius: 13}} fullWidth error={Boolean(touched.select && errors.select)} className={classes.loginInput}>
-                        <InputLabel htmlFor="outlined-adornment-email-login">Genero</InputLabel>
-                       {/*} <OutlinedInput style={{ border: "1px solid", borderColor: "#DB7F50"}}
-                            id="outlined-adornment-email-login-birthdate"
-                            type="select"
-                            value={values.select }
-                            name="genero"
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            inputProps={{
-                                classes: {
-                                    notchedOutline: classes.notchedOutline
-                                }
-                            }}
-                        />*/}
+                    <FormControl style={{border: "1px solid", borderRadius: 13}} fullWidth error={Boolean(touched.formikaGender && errors.formikaGender)} className={classes.loginInput}>
+                        <InputLabel htmlFor="formikaGender">Genero</InputLabel>
                         <NativeSelect
                         style={{ padding:"10px", border: "0px" }}
-                        defaultValue={+58}
+                        defaultValue={''}
+                        value={checked}
                         onBlur={handleBlur}
-                            onChange={handleChange}
+                        onChange={(event) => setChecked(event.target.checked)}
                         inputProps={{
-                        name: "codigo-telefonico",
-                        id: "codigo-telefonico",
+                        name: "formikaGender",
+                        id: "formikaGender",
                         }}
                     >
-                        <option value={10}>Masculino</option>
-                        <option value={20}>Femenino</option>
+                        <option value={'M'}>M</option>
+                        <option value={'F'}>F</option>
                     </NativeSelect>
-                        {touched.select && errors.select && (
+                        {touched.formikaGender && errors.formikaGender && (
                             <FormHelperText error id="standard-weight-helper-text-email-login">
                                 {' '}
-                                {errors.select}{' '}
+                                {errors.formikaGender}{' '}
                             </FormHelperText>
                         )}
                     </FormControl>
-                    <FormControl fullWidth error={Boolean(touched.select && errors.select)} className={classes.loginInput}>
-                        <InputLabel htmlFor="outlined-adornment-email-login">Dirección de Habitación</InputLabel>
+                    <FormControl fullWidth error={Boolean(touched.formikaAddress && errors.formikaAddress)} className={classes.loginInput}>
+                        <InputLabel htmlFor="formikaAddress">Dirección de Habitación Ej:Carrera 27, Calle34.</InputLabel>
                         <OutlinedInput style={{ border: "1px solid", borderColor: "#DB7F50"}}
-                            id="outlined-adornment-email-login-birthdate"
+                            id="formikaAddress"
                             type="text-area"
-                            value={values.select }
-                            name="genero"
+                            value={values.formikaAddress }
+                            name="formikaAddress"
                             onBlur={handleBlur}
                             onChange={handleChange}
                             inputProps={{
@@ -328,10 +340,10 @@ const JWTLRegister = ({ loginIndex, ...others }) => {
                                 }
                             }}
                         />
-                        {touched.select && errors.select && (
+                        {touched.formikaAddress && errors.formikaAddress && (
                             <FormHelperText error id="standard-weight-helper-text-email-login">
                                 {' '}
-                                {errors.select}{' '}
+                                {errors.formikaAddress}{' '}
                             </FormHelperText>
                         )}
                     </FormControl>
@@ -354,35 +366,7 @@ const JWTLRegister = ({ loginIndex, ...others }) => {
                             >
                                 Elige las areas que sean de tu interes
                             </Typography>
-                      {/*}       <FormControlLabel style={{color:"#9393AA"}}
-                                control={
-                                    <Checkbox
-                                    style={{color:"#41634A"}}
-                                        checked={checked}
-                                        onChange={(event) => setChecked(event.target.checked)}
-                                        name="checked"
-                                        color="primary"
-                                    />
-                                }
-                                label="Mantener la sesión"
-                            />*/}
                         </Grid>
-                        {/*<Grid item>
-                            <Typography
-                                variant="subtitle1"
-                                component={Link}
-                                to={
-                                    loginIndex
-                                        ? `/pages/forgot-password/forgot-password${loginIndex}`
-                                        : '/pages/forgot-password/forgot-password1'
-                                }
-                                color="secondary"
-                                sx={{ textDecoration: 'none',
-                            color:"#41634A" }}
-                            >
-                                ¿Olvidaste tu contraseña?
-                            </Typography>
-                        </Grid>*/}
                     </Grid>
 
                     {errors.submit && (
@@ -459,6 +443,18 @@ const JWTLRegister = ({ loginIndex, ...others }) => {
                             </Button>
                         </AnimateButton>
                     </Box>
+                      
+                    <Box>               
+                            <Button style={{
+        borderRadius: 35,
+        backgroundColor: "#DB7F50",
+        padding: "10px 36px",
+        fontSize: "24px",
+        margin:"5% 0% 0% 0%"
+    }}color="secondary"  fullWidth size="large" type="submit" variant="contained">
+                                QUIERO UNIRME
+                            </Button>
+                    </Box> 
                 </form>
             )}
         </Formik>

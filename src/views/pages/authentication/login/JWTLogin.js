@@ -60,13 +60,13 @@ const JWTLogin = ({ loginIndex, ...others }) => {
     return (
         <Formik
             initialValues={{
-                email: 'test@test.com',
-                password: 'test123',
+                formikaLoginEmail: '',
+                formikaLoginPassword: '',
                 submit: null
             }}
             validationSchema={Yup.object().shape({
-                email: Yup.string().email('Must be a valid email').max(255).required('El correo electrónico es obligatorio'),
-                password: Yup.string().max(255).required('Se requiere una contraseña')
+                formikaLoginEmail: Yup.string().email('Debe ser un correo electrónico válido').max(255).required('El correo electrónico es obligatorio'),
+                formikaLoginPassword: Yup.string().max(255).required('Se requiere una contraseña')
             })}
             onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                 try {
@@ -93,13 +93,13 @@ const JWTLogin = ({ loginIndex, ...others }) => {
         >
             {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                 <form noValidate onSubmit={handleSubmit} {...others}>
-                    <FormControl fullWidth error={Boolean(touched.email && errors.email)} className={classes.loginInput}>
-                        <InputLabel htmlFor="outlined-adornment-email-login">Correo electronico</InputLabel>
+                    <FormControl fullWidth error={Boolean(touched.formikaLoginEmail && errors.formikaLoginEmail)} className={classes.loginInput}>
+                        <InputLabel htmlFor="formikaLoginEmail">Correo electronico</InputLabel>
                         <OutlinedInput style={{ border: "1px solid", borderColor: "#DB7F50"}}
-                            id="outlined-adornment-email-login"
+                            id="formikaLoginEmail"
                             type="email"
-                            value={values.email}
-                            name="email"
+                            value={values.formikaLoginEmail}
+                            name="formikaLoginEmail"
                             onBlur={handleBlur}
                             onChange={handleChange}
                             inputProps={{
@@ -108,21 +108,21 @@ const JWTLogin = ({ loginIndex, ...others }) => {
                                 }
                             }}
                         />
-                        {touched.email && errors.email && (
+                        {touched.formikaLoginEmail && errors.formikaLoginEmail && (
                             <FormHelperText error id="standard-weight-helper-text-email-login">
                                 {' '}
-                                {errors.email}{' '}
+                                {errors.formikaLoginEmail}{' '}
                             </FormHelperText>
                         )}
                     </FormControl>
 
-                    <FormControl fullWidth error={Boolean(touched.password && errors.password)} className={classes.loginInput}>
-                        <InputLabel htmlFor="outlined-adornment-password-login">Contraseña</InputLabel>
+                    <FormControl fullWidth error={Boolean(touched.formikaLoginPassword && errors.formikaLoginPassword)} className={classes.loginInput}>
+                        <InputLabel htmlFor="formikaLoginPassword">Contraseña</InputLabel>
                         <OutlinedInput  style={{ border: "1px solid", borderColor: "#DB7F50"}}
-                            id="outlined-adornment-password-login"
+                            id="formikaLoginPassword"
                             type={showPassword ? 'text' : 'password'}
-                            value={values.password}
-                            name="password"
+                            value={values.formikaLoginPassword}
+                            name="formikaLoginPassword"
                             onBlur={handleBlur}
                             onChange={handleChange}
                             endAdornment={
@@ -144,10 +144,10 @@ const JWTLogin = ({ loginIndex, ...others }) => {
                             }}
                             label="Password"
                         />
-                        {touched.password && errors.password && (
+                        {touched.formikaLoginPassword && errors.formikaLoginPassword && (
                             <FormHelperText error id="standard-weight-helper-text-password-login">
                                 {' '}
-                                {errors.password}{' '}
+                                {errors.formikaLoginPassword}{' '}
                             </FormHelperText>
                         )}
                     </FormControl>
@@ -173,7 +173,7 @@ const JWTLogin = ({ loginIndex, ...others }) => {
                                 component={Link}
                                 to={
                                     loginIndex
-                                        ? `/pages/forgot-password`
+                                        ? `/forgot-password`
                                         : '/forgot-password'
                                 }
                                 color="secondary"

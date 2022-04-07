@@ -64,28 +64,6 @@ const Register = () => {
                                     <Grid item xs={12}>
                                         
                                     </Grid>
-                                    <Grid item xs={12}>
-                                        <Grid item container direction="column" alignItems="center" xs={12}>
-                                         
-                            <Button style={{
-        borderRadius: 35,
-        backgroundColor: "#DB7F50",
-        padding: "10px 36px",
-        fontSize: "24px"
-    }}color="secondary"  fullWidth size="large" type="submit" variant="contained" component={RouterLink} to="/register">
-                                QUIERO UNIRME
-                            </Button>
-                        
-                                          {/*  <Typography
-                                                component={RouterLink}
-                                                 
-                                                variant="subtitle1"
-                                                sx={{ textDecoration: 'none' }}
-                                            >
-                                                Crear una cuenta
-                                            </Typography>*/}
-                                        </Grid>
-                                    </Grid>
                                 </Grid>
                             </AuthCardWrapper>
                         </Grid>
